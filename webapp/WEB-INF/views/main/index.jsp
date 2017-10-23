@@ -7,7 +7,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Insert title here</title>
+<title>Bit SoundPlayer</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 
@@ -27,19 +27,58 @@
 
 <!-- youtube  -->
 <script>
+	//171021-SH : api에서 가져온 플레이 리스트( 현재 정적 - 나중엔 동적으로 가져와야 함 )
+	/*
+	var playList = [ 'hKUJmA9O6iA', 'Amq-qlqbjYA', '_7TMluHVx4Y',
+		'FzVR_fymZw4', '9pdj4iJD08s', 'NvWfJTbrTBY', 'ivoS3HUJB3Q',
+		'5LWCPzwiN28', '3fg8pyLKvXE', '1kYrp_Bs8DU', 'dISNgvVpWlo',
+		'X3P6dnL2OyY', '_NVwS4mcVYg', 'bwmSjveL3Lc', 'rCr57C1F_38',
+		'_paRxWTIyAo', 'TWRSR7y1288', '5_O9MbCeOrk', 'LpSH8MrYCfg',
+		'5gt8P6dwuCY', 'TklpzjGlqFE', 'RczrR4FVKzg', 'HlsxEGd0MLw',
+		'EKHdMwRaU60', 'Dojlbb44LpA', 'VQLn90MACUQ', '13XTnp3Lp84',
+		'RHpwpBnfLco', '-4f_1HYnTcM', 'vAqAp1tJnkc', 'wwuZtpS8FNI',
+		'metZ_f8aqC0', '6F0UWgSSQqU', 'uy2Yc5tt5ns', 'ZwVTC_686Sw',
+		'cxbZuoF3RuQ', 'fWOAe_xXTQs', 'GE7x2fVVsXM', 'ZL8LqlKtpVE',
+		'vW1PeCzs7Sg', '9bOfCLnOQnI', 'tSuKh0obBKE', 'ApzONNuuUGw',
+		'SsyInQXEIs4', 'FOv-Rsp1LS0', 'RGmL76BBGZk', 'HoAdqZW4ptY',
+		'hTDRE5d5A2M', 'o4rSRaqvHyc', '_gpltTuUd48' ]
+	*/
+
+	//171023-SH : api 호출하여 받은 json 데이터 파싱하여 목록 만들기 
+	var playList = []
+	var request_url = "https://www.googleapis.com/youtube/v3/search?part=id&channelId=UCOmHUn--16B90oW2L6FRR3A&key=AIzaSyBJe_ZQsSPD6R6X05fg_R6gZIif4Q-XttI&maxResults=50" 
+	$(function() {
+		$.ajax({
+			type : 'get',
+			url : request_url,
+			dataType : 'json',
+			success : function(data) {
+				console.log(data)
+				
+				items = data.items
+				for(var i = 0; i<50; i++ ) {
+					//console.log(items[i])
+					//console.log(items[i].id.videoId)
+					// playList에 추가하기 
+					playList.push(items[i].id.videoId)
+				}
+			}
+		});
+		
+	})
+
+	//출처: http:
+	//roqkffhwk.tistory.com/46 [야근싫어하는 개발자]
+
 	// 2. This code loads the IFrame Player API code asynchronously.
 	var tag = document.createElement('script');
+
 	
-	// 171021-SH : api에서 가져온 플레이 리스트( 현재 정적 - 나중엔 동적으로 가져와야 함 )
-	var playList = ['hKUJmA9O6iA', 'Amq-qlqbjYA', '_7TMluHVx4Y', 'FzVR_fymZw4', '9pdj4iJD08s', 'NvWfJTbrTBY', 'ivoS3HUJB3Q', '5LWCPzwiN28', '3fg8pyLKvXE', '1kYrp_Bs8DU', 'dISNgvVpWlo', 'X3P6dnL2OyY', '_NVwS4mcVYg', 'bwmSjveL3Lc', 'rCr57C1F_38', '_paRxWTIyAo', 'TWRSR7y1288', '5_O9MbCeOrk', 'LpSH8MrYCfg', '5gt8P6dwuCY', 'TklpzjGlqFE', 'RczrR4FVKzg', 'HlsxEGd0MLw', 'EKHdMwRaU60', 'Dojlbb44LpA', 'VQLn90MACUQ', '13XTnp3Lp84', 'RHpwpBnfLco', '-4f_1HYnTcM', 'vAqAp1tJnkc', 'wwuZtpS8FNI', 'metZ_f8aqC0', '6F0UWgSSQqU', 'uy2Yc5tt5ns', 'ZwVTC_686Sw', 'cxbZuoF3RuQ', 'fWOAe_xXTQs', 'GE7x2fVVsXM', 'ZL8LqlKtpVE', 'vW1PeCzs7Sg', '9bOfCLnOQnI', 'tSuKh0obBKE', 'ApzONNuuUGw', 'SsyInQXEIs4', 'FOv-Rsp1LS0', 'RGmL76BBGZk', 'HoAdqZW4ptY', 'hTDRE5d5A2M', 'o4rSRaqvHyc', '_gpltTuUd48']
 
 	tag.src = "https://www.youtube.com/iframe_api";
 	var firstScriptTag = document.getElementsByTagName('script')[0];
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-	
-	
-	
 	// 3. This function creates an <iframe> (and YouTube player)
 	//    after the API code downloads.
 	var player;
@@ -50,7 +89,7 @@
 			//videoId : 'M7lc1UVf-VE',
 			videoId : 'hKUJmA9O6iA',
 			events : {
-				 // 171021-SH : 로드되면 onReady가 호출됨. 여기서 내 함수 지정 
+				// 171021-SH : 로드되면 onReady가 호출됨. 여기서 내 함수 지정 
 				'onReady' : initPlayList,
 				'onStateChange' : onPlayerStateChange
 			}
@@ -76,16 +115,14 @@
 	function stopVideo() {
 		player.stopVideo();
 	}
-	
+
 	// 171021-SH : 목록을 만들어보자
 	function initPlayList(event) {
 		console.log('initPlayList')
 		//player.cuePlaylist(playList, 0, 0);
 		// 171021-SH : 목록을 플레이 리스트에 넣고 재생시키기 
 		player.loadPlaylist(playList, 0, 0);
-		
 	}
-	
 </script>
 
 <style type="text/css">
@@ -184,11 +221,17 @@ body {
 				<!-- 동영상 플레이어 -->
 				<div id='player'></div>
 				<!-- 동영상 컨트롤러 -->
-				<div></div>
+				<div>
+					<h1>이곳은 동영상 컨트롤러가 될 곳</h1>
+				</div>
 				<!-- 재생목록 -->
-				<div></div>
+				<div>
+					<h1>이곳은 동영상 재생목록이 될 곳</h1>
+				</div>
 				<!-- 댓글 -->
-				<div></div>
+				<div>
+					<h1>이곳은 댓글 쓰는 곳이 될까?</h1>
+				</div>
 			</div>
 			<div id="right_contents">
 				<h1>Right Content</h1>
