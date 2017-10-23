@@ -43,28 +43,54 @@
 		'SsyInQXEIs4', 'FOv-Rsp1LS0', 'RGmL76BBGZk', 'HoAdqZW4ptY',
 		'hTDRE5d5A2M', 'o4rSRaqvHyc', '_gpltTuUd48' ]
 	*/
-
+	var render = function( playList ) {
+		console.log(playList)
+		for( index in playList ) {
+			console.log(index)
+			//console.log(IDs[index][1])
+			var html = 
+				"<li video-id=list'"+ index +"'>" +
+				"<a href='javascript:selectSong("+index+")' class = 'call-song'>"+titleList[index] + "</a>" +
+				"</li>"
+			$( "#play-list" ).append( html );
+		}	
+	}
+	
+	
+	
+	
 	//171023-SH : api 호출하여 받은 json 데이터 파싱하여 목록 만들기 
 	var playList = []
-	var request_url = "https://www.googleapis.com/youtube/v3/search?part=id&channelId=UCOmHUn--16B90oW2L6FRR3A&key=AIzaSyBJe_ZQsSPD6R6X05fg_R6gZIif4Q-XttI&maxResults=50" 
+	var titleList = []
+	var nowPlaying = ""
+	var request_url = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCOmHUn--16B90oW2L6FRR3A&key=AIzaSyBJe_ZQsSPD6R6X05fg_R6gZIif4Q-XttI&maxResults=50" 
 	$(function() {
 		$.ajax({
 			type : 'get',
 			url : request_url,
 			dataType : 'json',
 			success : function(data) {
-				console.log(data)
-				
+				//console.log(data) //받은 전체 data 출력
 				items = data.items
 				for(var i = 0; i<50; i++ ) {
-					//console.log(items[i])
-					//console.log(items[i].id.videoId)
+					//console.log(items[i]) // item 별로 출력
+					//console.log(items[i].id.videoId) // item의 videoId 출력
+					
 					// playList에 추가하기 
+					//items[i].id.videoId
+					//items[i].snippet.title
+					//var song = []
+					//song.push(items[i].id.videoId)
+					//song.push(items[i].snippet.title)
+					
 					playList.push(items[i].id.videoId)
+					titleList.push(items[i].snippet.title)
+					
 				}
+				render(playList)
+				nowPlaying = playList[0]
 			}
 		});
-		
 	})
 
 	//출처: http:
@@ -87,7 +113,7 @@
 			height : '360',
 			width : '640',
 			//videoId : 'M7lc1UVf-VE',
-			videoId : 'hKUJmA9O6iA',
+			videoId : nowPlaying,
 			events : {
 				// 171021-SH : 로드되면 onReady가 호출됨. 여기서 내 함수 지정 
 				'onReady' : initPlayList,
@@ -122,6 +148,15 @@
 		//player.cuePlaylist(playList, 0, 0);
 		// 171021-SH : 목록을 플레이 리스트에 넣고 재생시키기 
 		player.loadPlaylist(playList, 0, 0);
+	}
+	
+	function selectSong(indexnum){
+		//console.log(index)
+		console.log("selectSong")
+		//player.loadVideoById(playList[index][0], 0)
+		player.loadPlaylist(playList, indexnum, 0)
+                
+
 	}
 </script>
 
@@ -225,7 +260,7 @@ body {
 					<h1>이곳은 동영상 컨트롤러가 될 곳</h1>
 				</div>
 				<!-- 재생목록 -->
-				<div>
+				<div id='play-list'>
 					<h1>이곳은 동영상 재생목록이 될 곳</h1>
 				</div>
 				<!-- 댓글 -->
