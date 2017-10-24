@@ -10,6 +10,10 @@ public class MainController {
 	public String main() {
 		
 		//return "/WEB-INF/views/main/index.jsp";
+		// return "main/index_hg";
+		// return "main/index_hw";
 		return "main/index";
 	}
+	
+
 }
