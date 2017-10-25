@@ -9,6 +9,8 @@
 	<classpath>
 		<dir name="D:/BigData/workspace/soundplayer/target/classes">
 		</dir>
+		<dir name="D:/BigData/workspace/soundplayer/target/test-classes">
+		</dir>
 	</classpath>
 
 	<web>

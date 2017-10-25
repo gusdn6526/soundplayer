@@ -44,10 +44,10 @@
 		'hTDRE5d5A2M', 'o4rSRaqvHyc', '_gpltTuUd48' ]
 	*/
 	var render = function( playList ) {
+		console.log("------ render ------")
 		console.log(playList)
 		for( index in playList ) {
 			console.log(index)
-			//console.log(IDs[index][1])
 			var html = 
 				"<li video-id=list'"+ index +"'>" +
 				"<a href='javascript:selectSong("+index+")' class = 'call-song'>"+titleList[index] + "</a>" +
@@ -65,6 +65,7 @@
 	var nowPlaying = ""
 	var request_url = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCOmHUn--16B90oW2L6FRR3A&key=AIzaSyBJe_ZQsSPD6R6X05fg_R6gZIif4Q-XttI&maxResults=50" 
 	$(function() {
+		console.log("------ $(function() ajax ) ------")
 		$.ajax({
 			type : 'get',
 			url : request_url,
@@ -72,7 +73,7 @@
 			success : function(data) {
 				//console.log(data) //받은 전체 data 출력
 				items = data.items
-				for(var i = 0; i<50; i++ ) {
+				for(var i = 0; i<items.length; i++ ) {
 					//console.log(items[i]) // item 별로 출력
 					//console.log(items[i].id.videoId) // item의 videoId 출력
 					
@@ -110,6 +111,7 @@
 	//    after the API code downloads.
 	var player;
 	function onYouTubeIframeAPIReady() {
+		console.log("------ onYouTubeIframeAPIReady ------")
 		player = new YT.Player('player', {
 			height : '360',
 			width : '640',
@@ -125,6 +127,7 @@
 
 	// 4. The API will call this function when the video player is ready.
 	function onPlayerReady(event) {
+		console.log("------ onPlayerReady ------")
 		console.log('onPlayerReady')
 		event.target.playVideo();
 	}
@@ -134,24 +137,27 @@
 	//    the player should play for six seconds and then stop.
 	var done = false;
 	function onPlayerStateChange(event) {
+		console.log("------ onPlayerStateChange ------")
 		if (event.data == YT.PlayerState.PLAYING && !done) {
 			// setTimeout(stopVideo, 6000);
 			done = true;
 		}
 	}
 	function stopVideo() {
+		console.log("------ stopVideo ------")
 		player.stopVideo();
 	}
 
 	// 171021-SH : 목록을 만들어보자
 	function initPlayList(event) {
-		console.log('initPlayList')
+		console.log("------ initPlayList ------")
 		//player.cuePlaylist(playList, 0, 0);
 		// 171021-SH : 목록을 플레이 리스트에 넣고 재생시키기 
 		player.loadPlaylist(playList, 0, 0);
 	}
 	
 	function selectSong(indexnum){
+		console.log("------ selectSong ------")
 		//console.log(index)
 		console.log("selectSong")
 		//player.loadVideoById(playList[index][0], 0)
@@ -180,6 +186,24 @@ body {
 	width: 760px;
 	height: 0px auto;
 	float: left;
+}
+
+
+#player-div {
+	background-color: #BBBBBB;
+	width: 760px;
+	height: 0px auto;
+	float: left;
+}
+
+#player {
+	background-color: #BBBBBB;
+	width: 640px;
+	height: 360px ;
+	left: 50%;
+	
+	float: center;
+	
 }
 
 #right_contents {
@@ -255,9 +279,11 @@ body {
 			<div id="center_contents">
 				<h1>Center Content</h1>
 				<!-- 동영상 플레이어 -->
-				<div id='player'></div>
-				<!-- 동영상 컨트롤러 -->
-				<div>
+				<div id='player-div'>
+					<div id='player'></div>
+					<!-- 동영상 컨트롤러 -->
+					<div>
+				</div>
 					<h1>이곳은 동영상 컨트롤러가 될 곳</h1>
 				</div>
 				<!-- 재생목록 -->
