@@ -1,10 +1,6 @@
 package com.bigdata2017.soundplayer.crawler;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,37 +10,77 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class MelonCrawler {
+import com.bigdata2017.soundplayer.vo.SongVo;
 
+public class MelonCrawler {
+	
+	/*
 	public static void main(String[] args) {
-		List<String> list = new ArrayList<String>();
+		String url = "http://www.melon.com/chart/index.htm#params%5Bidx%5D="; 
+		List<SongVo> titleList = getMelonTitle(url);
+		System.out.println("list.size() : " + titleList.size());
+	}
+	*/
+	
+	public List<SongVo> getMelonTitles(String url) {
+		List<SongVo> titleList = new ArrayList<SongVo>();
 
 		try {
+			// 1~50, 51~100 을 가져오기위해 for구문 
 			for (int i = 0; i < 2; i++) {
-				Connection.Response response = Jsoup
-						.connect("http://www.melon.com/chart/index.htm#params%5Bidx%5D=" + (1 + (i * 50)))
+				Connection.Response response = 
+						Jsoup.
+						connect(url + (1 + (i * 50)))
 						.method(Connection.Method.GET).execute();
+				
 				Document document = response.parse();
-
 				Elements melon_top100_table = document.select("div[class=service_list_song type02 d_song_list] table");
 				Elements melon_top100_tbody = melon_top100_table.select("tbody");
-
 				Elements melon_top100_tr = melon_top100_tbody
 						.select("tr[class=lst50] td div[class=wrap_song_info] div[class=ellipsis rank01] a");
+				
 				for (Element element : melon_top100_tr) {
-					list.add(element.html());
+					SongVo vo = new SongVo();
+					vo.setTitle(element.html());
+					//vo.setArtist();
+					titleList.add(vo);
 				}
 			}
-
-			System.out.println("list.size() : " + list.size());
-			for (String string : list) {
-				System.out.println(string);
-			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return titleList;
 	}
+	
+	
+	/*
+	public List<String> getMelonTitles(String url) {
+		List<String> titleList = new ArrayList<String>();
+
+		try {
+			// 1~50, 51~100 을 가져오기위해 for구문 
+			for (int i = 0; i < 2; i++) {
+				Connection.Response response = 
+						Jsoup.
+						connect(url + (1 + (i * 50)))
+						.method(Connection.Method.GET).execute();
+				
+				Document document = response.parse();
+				Elements melon_top100_table = document.select("div[class=service_list_song type02 d_song_list] table");
+				Elements melon_top100_tbody = melon_top100_table.select("tbody");
+				Elements melon_top100_tr = melon_top100_tbody
+						.select("tr[class=lst50] td div[class=wrap_song_info] div[class=ellipsis rank01] a");
+				
+				for (Element element : melon_top100_tr) {
+					titleList.add(element.html());
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return titleList;
+	}
+	*/
 
 	/*
 	 * System.out.println("start"); String url =
@@ -64,6 +100,8 @@ public class MelonCrawler {
 
 	// end
 
+	
+	/*
 	public static String getHTML(String urlToRead) {
 		URL url;
 		HttpURLConnection conn;
@@ -87,5 +125,6 @@ public class MelonCrawler {
 
 		return result;
 	}
+	*/
 
 }

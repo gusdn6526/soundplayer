@@ -19,6 +19,8 @@ public class JSONResult {
 		return new JSONResult( "fail", message, null );
 	}
 	
+	
+	
 	public String getResult() {
 		return result;
 	}
@@ -28,4 +30,5 @@ public class JSONResult {
 	public Object getData() {
 		return data;
 	}
+	
 }
