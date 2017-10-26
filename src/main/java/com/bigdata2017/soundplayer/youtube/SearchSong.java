@@ -14,7 +14,7 @@ import org.json.simple.parser.JSONParser;
 import com.bigdata2017.soundplayer.vo.SongVo;
 
 
-
+// 171026-SH : 타이틀 조회시 videoId 도 함께 주려고 했으나, 100개 전체 요청이 너무 느려서 안쓰기로 하자 
 public class SearchSong {
 	private final static String USER_AGENT = "Mozilla/5.0";
 
