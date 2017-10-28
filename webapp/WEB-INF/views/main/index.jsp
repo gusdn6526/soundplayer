@@ -11,12 +11,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- main.css 임포트 -->
-<link href="${pageContext.servletContext.contextPath }/assets/css/main.css" rel="stylesheet" type="text/css">
+<link
+	href="${pageContext.servletContext.contextPath }/assets/css/main.css"
+	rel="stylesheet" type="text/css">
 <!-- jquery 임포트 -->
-<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- js(youtube_api) import -->
-<script src="${pageContext.servletContext.contextPath }/assets/js/youtube_api.js" type="text/javascript"></script>
+<script
+	src="${pageContext.servletContext.contextPath }/assets/js/youtube_api.js"
+	type="text/javascript"></script>
 
 </head>
 
@@ -54,21 +59,27 @@
 				<h1>Center Content</h1>
 				<!-- 동영상 플레이어 -->
 				<div id='player-div'>
-					<div id='player'></div>
-					<!-- 동영상 컨트롤러 -->
-					<div>
+					<div id='player'>
+					</div>
 				</div>
+				
+				<!-- 동영상 컨트롤러 -->
+				<div id='player-controller'>
 					<h1>이곳은 동영상 컨트롤러가 될 곳</h1>
-					<li>이전</li>
-					<li>재생</li>
-					<li>일시정지</li>
-					<li>정지</li>
-					<li>다음</li>
+					<p id='playing-info'>ddd</p>
+					<button id='prev'>이전</button>
+					<button id='play'>재생</button>
+					<button id='pause'>일시정지</button>
+					<button id='stop'>정지</button>
+					<button id='next'>다음</button>
+					
 				</div>
+				
 				<!-- 재생목록 -->
 				<div class='play-list' id='play-list'>
 					<h1>이곳은 동영상 재생목록이 될 곳</h1>
 				</div>
+				
 				<!-- 댓글 -->
 				<div>
 					<h1>이곳은 댓글 쓰는 곳이 될까?</h1>
