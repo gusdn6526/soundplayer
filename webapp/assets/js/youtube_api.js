@@ -17,12 +17,22 @@
 		//console.log("playList : "+playList)
 		
 		//for( index in playList ) {
-		for( key in dictSongInfo ) {
-			// 자바스크립트 함수 호출시 스트링 보내기 위해 
+		var count = 0
+		console.log(Object.keys(dictPlayList))
+		console.log(Object.keys(dictSongInfo))
+		//console.log(playList.length)
+		//for( key in dictSongInfo ) {
+		for( key in dictPlayList ) {
+			key = dictPlayList[key]
+		//아니 왜 dictSongInfo 가 50개만 나오지...?
+		//for( var i =0; i<playList.length; i++) {
+			//var key = playList[i]
+			// 자바스크립트 함수 호출시 스트링 보내기 위해
+			count++
 			param = '"'+key+'"'
 			var html = 
 				"<li video-id=list'"+ key +"'>" +
-				"<a href='javascript:selectSong("+param+")' class = 'call-song'>"+ key + " - " + dictSongInfo[key] +"</a>" +
+				"<a href='javascript:selectSong("+param+")' class = 'call-song'>"+count+". "+ key + " - " + dictSongInfo[key] +"</a>" +
 				"</li>"
 			$( "#play-list" ).append( html );
 		}	
@@ -48,15 +58,16 @@
 				items = response.data
 				for(var i = 0; i<items.length; i++ ) {
 					// 순서를 알기위해 저장해두자 
-					//playList.push(items[i].title)
+					playList.push(items[i].title)
 					dictPlayList[i] = items[i].title
 					
 					dictSongInfo[items[i].title] = items[i].artist
 					dictVideoInfo[items[i].title] = ""
+					//console.log("["+i+"]"+items[i].title+" : "+ dictSongInfo[items[i].title])
 				}
 				//render(playList)
 				render()
-				nowPlaying = playList[0]
+				nowPlaying = 0
 			}
 		});
 	})
