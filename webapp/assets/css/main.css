@@ -69,3 +69,7 @@ body {
 	background-color: #bbdd66;
 	height: 60px;
 }
+
+#play-list li a.selected {
+	background-color : #FFCC66;
+}

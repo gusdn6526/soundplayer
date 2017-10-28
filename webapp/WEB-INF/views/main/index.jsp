@@ -59,9 +59,14 @@
 					<div>
 				</div>
 					<h1>이곳은 동영상 컨트롤러가 될 곳</h1>
+					<li>이전</li>
+					<li>재생</li>
+					<li>일시정지</li>
+					<li>정지</li>
+					<li>다음</li>
 				</div>
 				<!-- 재생목록 -->
-				<div id='play-list'>
+				<div class='play-list' id='play-list'>
 					<h1>이곳은 동영상 재생목록이 될 곳</h1>
 				</div>
 				<!-- 댓글 -->

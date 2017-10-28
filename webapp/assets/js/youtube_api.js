@@ -10,6 +10,7 @@
 	// 현재 재생중인 노래 정보 - 아이디?
 	var nowPlaying = 0
 
+	
 		
 	// 재생목록 출력하기
 	var render = function(  ) {
@@ -31,8 +32,8 @@
 			count++
 			param = '"'+key+'"'
 			var html = 
-				"<li video-id=list'"+ key +"'>" +
-				"<a href='javascript:selectSong("+param+")' class = 'call-song'>"+count+". "+ key + " - " + dictSongInfo[key] +"</a>" +
+				"<li  video-id=list'"+ key +"'>"+
+				"<a href='javascript:selectSong("+param+", "+count+")' id='"+count+"' class = 'call-song'>"+count+". "+ key + " - " + dictSongInfo[key] +"</a>" +
 				"</li>"
 			$( "#play-list" ).append( html );
 		}	
@@ -98,17 +99,9 @@
 		});
 	}
 
-	// 4. The API will call this function when the video player is ready.
-	function onPlayerReady(event) {
-		console.log("------ onPlayerReady ------")
-		console.log('onPlayerReady')
-		event.target.playVideo();
-	}
-
 	// 5. The API calls this function when the player's state changes.
 	//    The function indicates that when playing a video (state=1),
 	//    the player should play for six seconds and then stop.
-	var done = false;
 	function onPlayerStateChange(event) {
 		// 시작되지 않음 		: -1
 		// 종료(ended) 		: 0
@@ -127,7 +120,6 @@
 		case 5  : status = "동영상신호"; break;
 		default : status = "알수없음"; break;
 		}
-		
 		console.log("------ onPlayerStateChange -> "+status)
 		
 		// 1. 종료시 다음곡을 재생해주도록 하자.
@@ -140,14 +132,12 @@
 				nextSong = 0
 			}
 			
-			
-			
 			// # 랜덤곡 선정
 			
 			
-			
 			//재생 시키기
-			selectSong( dictPlayList[nextSong] )
+			SelectIndex = nextSong+1
+			selectSong( dictPlayList[nextSong], SelectIndex )
 		}
 		
 		
@@ -172,12 +162,15 @@
 		//player.loadPlaylist(playList, 0, 0);
 		// 171028-SH : 첫번째 노래를 틀어주자~
 		//selectSong( playList[0] )
-		selectSong( dictPlayList[0] )
+		selectSong( dictPlayList[0], 1 )
 	}
 	
-	function selectSong(title){
+	function selectSong(title, count){
 		console.log("------ selectSong : "+title+" ------")
 		
+		// 여기다가 선택시 색 변경해주는거 해야되..
+		$(".play-list li a.selected").removeClass("selected");
+		$(".play-list li #"+count).addClass("selected");
 		
 		//1. videoId가 존재하는지 체크 - 있으면 재생, 없으면 search
 		if ( dictVideoInfo[title] == "" ) {
@@ -212,14 +205,12 @@
 						playSong( videoId )
 					}
 				});
-			
-			
 		} else {
 			//console.log("already havd id")
 			//4. 해당 videoId를 youtbue api를 이용하여 palyer 에 재생 
 			playSong( dictVideoInfo[title] )
-			
 		}
+		
 		
 		//5. 현재 재생정보를 저장한다. - 인덱스로 저장하자
 		//nowPlaying = title;
@@ -229,21 +220,13 @@
 				break;
 			}
 		}
-		//console.log("nowPlaying = "+nowPlaying)
-		
-		
-		
-		
-		
-		//player.loadPlaylist(playList, indexnum, 0)
-                
-
 	}
 	
 	function playSong( videoId ) {
 		player.cueVideoById(videoId, 0)
 		player.playVideo()
 	}
+	
 	
 	
 	
