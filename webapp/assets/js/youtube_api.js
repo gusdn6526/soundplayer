@@ -225,7 +225,7 @@
 			}
 		}
 		
-		//컨트롤러 위에 재생중인 노래 정보 출력하기 
+		//컨트롤러 위에 재생중인 노래 정보 출력하기
 		$("#playing-info").text(title+" - "+ dictSongInfo[title])
 	}
 	

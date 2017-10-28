@@ -76,7 +76,7 @@
 				</div>
 				
 				<!-- 재생목록 -->
-				<div class='play-list' id='play-list'>
+				<div class='play-list' id='play-list' style='overflow-y:auto; height:300px'>
 					<h1>이곳은 동영상 재생목록이 될 곳</h1>
 				</div>
 				
