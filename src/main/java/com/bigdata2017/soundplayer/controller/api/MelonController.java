@@ -18,7 +18,8 @@ public class MelonController {
 	
 	@ResponseBody
 	@RequestMapping("/get/music/top/melon")
-	public JSONResult loadData() throws Exception {
+	public JSONResult getMelon() throws Exception {
+		System.out.println("call request : API - getMelon");
 		
 		//melon topp 100 가져오기 
 		String melon_url = "http://www.melon.com/chart/index.htm#params%5Bidx%5D=";
@@ -31,7 +32,9 @@ public class MelonController {
 		
 		//return JSONResult.success(list);
 		//return JSONResult.success(songList);
+		System.out.println("send response : API - getMelon");
 		return JSONResult.success(titles);
+		
 	}
 
 }

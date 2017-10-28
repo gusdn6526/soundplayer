@@ -18,7 +18,6 @@
 <!-- js(youtube_api) import -->
 <script src="${pageContext.servletContext.contextPath }/assets/js/youtube_api.js" type="text/javascript"></script>
 
-
 </head>
 
 
