@@ -22,7 +22,7 @@ public class MelonController {
 		System.out.println("call request : API - getMelon");
 		
 		//melon topp 100 가져오기 
-		String melon_url = "http://www.melon.com/chart/index.htm#params%5Bidx%5D=";
+		String melon_url = "http://www.melon.com/chart/index.htm#params%5Bidx%5D=51";
 		MelonCrawler mc = new MelonCrawler();
 		//melon 에서 제목들 가져오기
 		//List<String> titles = mc.getMelonTitles(melon_url);
