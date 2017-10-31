@@ -32,7 +32,22 @@ public class MelonController {
 		
 		lm.print(1,"API - getMelon","process finish");
 		return JSONResult.success(titles);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/get/music/past/melon")
+	public JSONResult getPastMelon() throws Exception {
+		LogManager lm = new LogManager();
+		lm.print(1,"API - getPastMelon","process start");
+
+		// melon 연도별 탑100 가져오기 - MelonCrawler - getMelonYearList
 		
+			
+		
+		
+		lm.print(1,"API - getPastMelon","process start");
+		// Json 으로 보내기 
+		return null;
 	}
 
 }

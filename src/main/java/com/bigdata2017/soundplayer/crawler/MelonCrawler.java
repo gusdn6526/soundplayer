@@ -65,4 +65,46 @@ public class MelonCrawler {
 		}
 		return titleList;
 	}
+	
+	
+	
+	public List<SongVo> getTest(String url) {
+		
+		//현재년도 가져오기
+		
+		
+		return null;
+	}
+	
+	
+	// 과거 연도 목록 가져오기 
+	public List<String> getMelonYearList(String url) {
+		
+		// 현재년도 가져오기
+		
+		// 2000 년도부터 현재년도까지 반복
+		
+			//해당 url에 노래목록이 있는지 조회
+			
+			//------------------------------------------
+			
+			// 있으면 노래 가져와 
+		
+		
+		
+		
+			//있으면 DB에 해당 연도 목록이 있는지 조회
+			
+				//없으면 해당연도 TB_YEAR Insert ,TB_SONG_PAST Insert
+		
+		
+			//있으면 return 값에  add
+			
+			
+		
+		return null;
+	}
+	
+	
+	
 }
