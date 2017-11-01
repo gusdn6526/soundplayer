@@ -1,0 +1,108 @@
+--------------------------------------------------------
+--  파일이 생성됨 - 수요일-11월-01-2017   
+--------------------------------------------------------
+
+drop table TB_SONG_PAST;
+drop table TB_SONG_TABLE;
+drop table TB_YEAR;
+
+
+
+
+--------------------------------------------------------
+--  DDL for Table TB_SONG_PAST
+--------------------------------------------------------
+
+  CREATE TABLE "TB_SONG_PAST" 
+   (	"IDX" NUMBER(8,0), 
+	"TITLE" NVARCHAR2(100), 
+	"ARTIST" NVARCHAR2(100), 
+	"RANK" NUMBER(3,0), 
+	"YEARID" NVARCHAR2(10)
+   ) ;
+
+   COMMENT ON COLUMN "TB_SONG_PAST"."IDX" IS 'IDX';
+   COMMENT ON COLUMN "TB_SONG_PAST"."TITLE" IS 'TITLE';
+   COMMENT ON COLUMN "TB_SONG_PAST"."ARTIST" IS 'ARTIST';
+   COMMENT ON COLUMN "TB_SONG_PAST"."RANK" IS 'RANK';
+   COMMENT ON COLUMN "TB_SONG_PAST"."YEARID" IS 'YEARID';
+   COMMENT ON TABLE "TB_SONG_PAST"  IS 'TB_SONG_PAST';
+--------------------------------------------------------
+--  DDL for Table TB_YEAR
+--------------------------------------------------------
+
+  CREATE TABLE "TB_YEAR" 
+   (	"IDX" NUMBER(8,0),
+    "ID" NVARCHAR2(10), 
+	"YEAR" NCHAR(4), 
+	"KIND" VARCHAR2(4)
+   ) ;
+
+   COMMENT ON COLUMN "TB_YEAR"."ID" IS 'ID';
+   COMMENT ON COLUMN "TB_YEAR"."IDX" IS 'IDX';
+   COMMENT ON COLUMN "TB_YEAR"."YEAR" IS 'YEAR';
+   COMMENT ON COLUMN "TB_YEAR"."KIND" IS 'KIND';
+   COMMENT ON TABLE "TB_YEAR"  IS 'TB_YEAR';
+REM INSERTING into TB_SONG_PAST
+SET DEFINE OFF;
+REM INSERTING into TB_YEAR
+SET DEFINE OFF;
+--------------------------------------------------------
+--  DDL for Index PK_TB_SONG_PAST
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_TB_SONG_PAST" ON "TB_SONG_PAST" ("IDX") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_TB_YEAR
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_TB_YEAR" ON "TB_YEAR" ("ID") 
+  ;
+--------------------------------------------------------
+--  Constraints for Table TB_SONG_PAST
+--------------------------------------------------------
+
+  ALTER TABLE "TB_SONG_PAST" ADD CONSTRAINT "PK_TB_SONG_PAST" PRIMARY KEY ("IDX") ENABLE;
+  ALTER TABLE "TB_SONG_PAST" MODIFY ("RANK" NOT NULL ENABLE);
+  ALTER TABLE "TB_SONG_PAST" MODIFY ("ARTIST" NOT NULL ENABLE);
+  ALTER TABLE "TB_SONG_PAST" MODIFY ("TITLE" NOT NULL ENABLE);
+  ALTER TABLE "TB_SONG_PAST" MODIFY ("IDX" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table TB_YEAR
+--------------------------------------------------------
+
+  ALTER TABLE "TB_YEAR" ADD CONSTRAINT "PK_TB_YEAR" PRIMARY KEY ("ID") ENABLE;
+  ALTER TABLE "TB_YEAR" MODIFY ("KIND" NOT NULL ENABLE);
+  ALTER TABLE "TB_YEAR" MODIFY ("YEAR" NOT NULL ENABLE);
+  ALTER TABLE "TB_YEAR" MODIFY ("IDX" NOT NULL ENABLE);
+  ALTER TABLE "TB_YEAR" MODIFY ("ID" NOT NULL ENABLE);
+
+
+-------------------------------------------------------------
+-- sequence
+
+drop sequence SEQ_SONG_PAST_IDX;
+create sequence SEQ_SONG_PAST_IDX
+increment by 1 
+start with 1
+maxvalue 99999999;
+
+drop sequence SEQ_YEAR_IDX;
+create sequence SEQ_YEAR_IDX
+increment by 1 
+start with 1
+maxvalue 99999999;
+
+
+------------------------------------------------------------------------------------
+-- test query
+------------------------------------------------------------------------------------
+-- select * from TB_YEAR;
+-- delete tb_year;
+-- insert into TB_YEAR values(SEQ_SONG_PAST_IDX.nextval, '2017KPOP', '2017', 'pop');
+
+-- select * from tb_song_past;
+-- delete tb_song_past;
+-- insert into tb_song_past values(seq_year_idx.nextval, 'test', 'test', 1, '2017POP')
+------------------------------------------------------------------------------------

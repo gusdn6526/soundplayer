@@ -46,6 +46,7 @@
 	var request_api = "/soundplayer/api/get/music/top/melon"
 	$(function() {
 		console.log("------ get music list ajax ) ------")
+		
 		$.ajax({
 			type : 'get',
 			url : request_api,
@@ -77,7 +78,7 @@
 		
 		
 		
-		//test
+		// 연도별 노래 조회 
 		console.log("------ check year ajax ) ------")
 		$.ajax({
 			type : 'get',

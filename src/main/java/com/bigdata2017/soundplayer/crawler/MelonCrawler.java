@@ -57,9 +57,12 @@ public class MelonCrawler {
 		for(String kind : kinds) {
 			for(int year=2000; year<nowYear; year++) {
 				//String url = "http://www.melon.com/chart/age/index.htm?chartType=YE&chartGenre="+kind+"&chartDate="+year;
-				String url = "http://www.melon.com/chart/age/index.htm?chartType=YE&chartGenre="+kind+"&chartDate="+year+"#params%5Bidx%5D=51";
-				Document doc = getDocument(url);
-				String pageYear = getYearTitle(doc);
+				String title_url = "http://www.melon.com/chart/age/index.htm?chartType=YE&chartGenre="+kind+"&chartDate="+year+"#params%5Bidx%5D=51";
+				Document title_doc = getDocument(title_url);
+				String pageYear = getYearTitle(title_doc);
+
+				String list_url = "http://www.melon.com/chart/age/list.htm?chartType=YE&chartGenre="+kind+"&chartDate="+year+"#params%5Bidx%5D=51";
+				Document list_doc = getDocument(list_url);
 				
 				System.out.println(kind+" / "+year+" : " +pageYear);
 				if ( Integer.parseInt(pageYear) == year ) {
@@ -72,41 +75,23 @@ public class MelonCrawler {
 					
 					if ( yearService.selectYearMessage(vo) ) {
 						//System.out.println("디비에 이미 존재함");
-//						List<SongVo> list = getSongList(doc);
-//						for(SongVo song : list) {
-//							System.out.println("inserting");
-//							SongVo svo = new SongVo();
-//							svo.setNo(song.getNo());
-//							svo.setTitle(song.getTitle());
-//							svo.setArtist(song.getArtist());
-//							svo.setYearId(vo.getId());
-//							
-//							songService.insertMessage(svo);
-//						}
 					} else {
 						//System.out.println("디비에 없음");
-						//해당 year insert
 						if ( yearService.insertMessage(vo) ) {
-							//해당 song insert
-							//System.out.println("year insert 성공");
-							List<SongVo> list = getSongList(doc);
-							System.out.println(list.size());
+							List<SongVo> list = getSongList(list_doc);
 							
 							for(SongVo song : list) {
-								System.out.println("inserting");
 								SongVo svo = new SongVo();
 								svo.setNo(song.getNo());
 								svo.setTitle(song.getTitle());
 								svo.setArtist(song.getArtist());
 								svo.setYearId(vo.getId());
+								svo.setRank(song.getNo());
 								
 								songService.insertMessage(svo);
 							}
 						}
-						
-						
 					}
-					
 				} else {
 					//같지 않으면 페이지가 없는 것 
 				}
@@ -147,9 +132,10 @@ public class MelonCrawler {
 	public List<SongVo> getSongList(Document doc) {
 		List<SongVo> titleList = new ArrayList<SongVo>();
 		int count = 0;
-		
-		Elements melon_table = doc.select("div[class=service_list_song type02 d_song_list] table");
-		Elements melon_tbody = melon_table.select("tbody");
+		//System.out.println(doc);
+		//Elements melon_table = doc.select("div[class=service_list_song type02 d_song_list] table");
+		//Elements melon_tbody = melon_table.select("tbody");
+		Elements melon_tbody = doc.select("tbody");
 		//System.out.println("melon_tbody : "+melon_tbody);
 		Elements melon_test = null;
 		Elements melon_title = null;
@@ -161,7 +147,7 @@ public class MelonCrawler {
 			melon_artist = melon_tbody.select("tr[class=lst" + (i + 1) * 50 + "] td div[class=wrap_song_info] div[class=ellipsis rank02] span[class=checkEllipsis] a");
 			
 			
-			melon_test  = melon_tbody.select("tr[class=lst" + (i + 1) * 50 + "]");
+			//melon_test  = melon_tbody.select("tr[class=lst" + (i + 1) * 50 + "]");
 			//System.out.println("melon_test : "+melon_test);
 			/*
 			if ( melon_rank.toString().replaceAll(" ", "").equals("") ) {
