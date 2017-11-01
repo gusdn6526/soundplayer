@@ -6,11 +6,20 @@
 	<select id="selectyear" parameterType="yearvo" resultType="int">
 		<![CDATA[
 		select	count(*)
-		from board
+		from TB_YEAR
 		where year = #{year }	
 			  and kind = #{kind }	
 		]]>		
 	</select>
+	
+	
+	<insert id="insertyear" parameterType="yearvo">
+		<![CDATA[
+			insert into TB_YEAR
+			values (seq_year_idx.nextval, #{id }, #{year }, #{kind })
+		]]>
+	</insert>
+	
 	
 	<!-- 
 	<update id="updateHit" parameterType="long">

@@ -5,6 +5,8 @@ public class SongVo {
 	private String artist;
 	private String title;
 	private String videoId;
+	private String yearId;
+	private int rank;
 	
 	
 	public String getArtist() {
@@ -32,10 +34,30 @@ public class SongVo {
 		this.videoId = videoId;
 	}
 	
+	public String getYearId() {
+		return yearId;
+	}
+	public void setYearId(String yearId) {
+		this.yearId = yearId;
+	}
+	
+	public int getRank() {
+		return rank;
+	}
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+	
+	
 	@Override
 	public String toString() {
-		return "SongVo [no=" + no + ", artist=" + artist + ", title=" + title + ", videoId=" + videoId + "]";
+		return "SongVo [no=" + no + ", artist=" + artist + ", title=" + title + ", videoId=" + videoId + ", yearId="
+				+ yearId + ", rank=" + rank + "]";
 	}
+
+	
+	
+	
 	
 	
 	

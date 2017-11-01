@@ -14,7 +14,7 @@
 	
 	<context:annotation-config />
 
-	<context:component-scan base-package="com.bigdata2017.soundplayer.repository, com.bigdata2017.soundplayer.service"> <!-- com.bigdata2017.mysite.exception -->
+	<context:component-scan base-package="com.bigdata2017.soundplayer.repository, com.bigdata2017.soundplayer.service, com.bigdata2017.soundplayer.crawler"> <!-- com.bigdata2017.mysite.exception -->
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation"

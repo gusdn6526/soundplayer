@@ -4,17 +4,20 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.bigdata2017.soundplayer.vo.SongVo;
+import com.bigdata2017.soundplayer.vo.YearVo;
 
 @Repository
-public class SongDao {
+public class YearDao {
 
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public int insert(SongVo vo) {
-		return sqlSession.insert("song_past.insertsong", vo);
-		
+	public int selectYear( YearVo vo) {
+		return sqlSession.selectOne("year.selectyear", vo);
 	}
 	
+	public int insertYear( YearVo vo) {
+		// 1 : 성공
+		return sqlSession.insert("year.insertyear", vo);
+	}
 }

@@ -3,6 +3,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="songvo" type="com.bigdata2017.soundplayer.vo.SongVo"/>
+		<typeAlias alias="yearvo" type="com.bigdata2017.soundplayer.vo.YearVo"/>
 		
     </typeAliases>	
 	

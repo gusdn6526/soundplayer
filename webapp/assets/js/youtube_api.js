@@ -19,8 +19,8 @@
 		
 		// for( index in playList ) {
 		var count = 0
-		console.log(Object.keys(dictPlayList))
-		console.log(Object.keys(dictSongInfo))
+		//console.log(Object.keys(dictPlayList))
+		//console.log(Object.keys(dictSongInfo))
 		// console.log(playList.length)
 		// for( key in dictSongInfo ) {
 		for( key in dictPlayList ) {
@@ -74,6 +74,25 @@
 			}
 		});
 		
+		
+		
+		
+		//test
+		console.log("------ check year ajax ) ------")
+		$.ajax({
+			type : 'get',
+			url : '/soundplayer/api/get/year/past/melon',
+			// url : test_api,
+			dataType : 'json',
+			success : function(response) {
+				if( response.result != "success" ) {
+					console.log("response error : "+ response.message );
+					return;
+				}
+				
+				console.log("success /soundplayer/api/get/year/past/melon")
+			}
+		});
 		
 	})
 

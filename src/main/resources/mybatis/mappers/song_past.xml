@@ -2,7 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="song_past">
-
+	
+	
+	<insert id="insertsong" parameterType="songvo">
+		<![CDATA[
+		insert into TB_SONG_PAST  
+		values( seq_song_past_idx.nextval , 
+				#{title },
+				#{artist },
+				#{rank },
+				#{id }
+				)
+		]]>
+	</insert>
 	<!-- 
 	<select id="getList" resultType="galleryvo">
 		<![CDATA[
