@@ -66,6 +66,10 @@ public class MelonCrawler {
 		return titleList;
 	}
 	
+	public List<String> getMelonYears(String url) {
+		List<String> years = new ArrayList<String>();
+		return null;
+	}
 	
 	
 	public List<SongVo> getTest(String url) {

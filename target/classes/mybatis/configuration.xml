@@ -2,21 +2,15 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-	<!-- 
-		<typeAlias alias="uservo" type="com.bigdata2017.mysite.vo.UserVo"/>
-		<typeAlias alias="guestbookvo" type="com.bigdata2017.mysite.vo.GuestbookVo"/>
-		<typeAlias alias="boardvo" type="com.bigdata2017.mysite.vo.BoardVo"/>
-		<typeAlias alias="galleryvo" type="com.bigdata2017.mysite.vo.GalleryVo"/>
-	 -->
+		<typeAlias alias="songvo" type="com.bigdata2017.soundplayer.vo.SongVo"/>
+		
     </typeAliases>	
 	
 	<mappers>
-	<!-- 
+		<mapper resource="mybatis/mappers/year.xml"/>
+		<mapper resource="mybatis/mappers/song_past.xml"/>
 		<mapper resource="mybatis/mappers/user.xml"/>
-		<mapper resource="mybatis/mappers/guestbook.xml"/>
-		<mapper resource="mybatis/mappers/board.xml"/>
-		<mapper resource="mybatis/mappers/gallery.xml"/>
-		 -->
+
 	</mappers>
 	
 </configuration>

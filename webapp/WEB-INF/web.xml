@@ -14,12 +14,10 @@
 	</welcome-file-list>
 	
 	<!-- Context Param -->
-	<!-- 
 	<context-param>
 	     <param-name>contextConfigLocation</param-name>
 	     <param-value>/WEB-INF/applicationContext.xml</param-value>
 	</context-param>
-	 -->
 	 	
 	<!-- Context Loader Listener -->
 	<listener>

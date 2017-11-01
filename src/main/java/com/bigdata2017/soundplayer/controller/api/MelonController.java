@@ -35,17 +35,20 @@ public class MelonController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/get/music/past/melon")
-	public JSONResult getPastMelon() throws Exception {
+	@RequestMapping("/get/year/past/melon")
+	public JSONResult getYearPastMelon() throws Exception {
 		LogManager lm = new LogManager();
-		lm.print(1,"API - getPastMelon","process start");
+		lm.print(1,"API - getYearPastMelon","process start");
 
-		// melon 연도별 탑100 가져오기 - MelonCrawler - getMelonYearList
-		
+		// melon에서 연도만 가져오기 
+		String melon_url = "http://www.melon.com/chart/index.htm#params%5Bidx%5D=51";
+		MelonCrawler mc = new MelonCrawler();
+		//melon 에서 제목들 가져오기
+		List<String> years = mc.getMelonYears(melon_url);
 			
 		
 		
-		lm.print(1,"API - getPastMelon","process start");
+		lm.print(1,"API - getYearPastMelon","process start");
 		// Json 으로 보내기 
 		return null;
 	}

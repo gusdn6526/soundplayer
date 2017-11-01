@@ -14,8 +14,7 @@
 	
 	<context:annotation-config />
 
-	<!-- 
-	<context:component-scan base-package="com.bigdata2017.mysite.repository, com.bigdata2017.mysite.service, com.bigdata2017.mysite.exception">
+	<context:component-scan base-package="com.bigdata2017.soundplayer.repository, com.bigdata2017.soundplayer.service"> <!-- com.bigdata2017.mysite.exception -->
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation"
@@ -23,13 +22,12 @@
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Component" />			
 	</context:component-scan>
-	 -->
 	 
 	<!-- oracle datasource -->
     <bean id="oracleDatasource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
         <property name="URL" value="jdbc:oracle:thin:@192.168.1.100:1521:xe" />
-        <property name="user" value="webdb" />
-        <property name="password" value="webdb" />
+        <property name="user" value="soundplayer" />
+        <property name="password" value="soundplayer" />
         <property name="connectionCachingEnabled" value="true" />
         <qualifier value="main-db" />
     </bean>
