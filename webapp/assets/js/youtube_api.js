@@ -10,6 +10,7 @@
 	// 현재 재생중인 노래 정보 - 아이디?
 	var nowPlaying = 0
 
+	
 	// 전역 main 함수 
 	$(function() {
 		//실시간 노래 가져오기 
@@ -21,7 +22,7 @@
 	
 		
 	// 재생목록 출력하기
-	var render = function(  ) {
+	var render = function() {
 		console.log("------ render ------")
 
 		var count = 0
@@ -38,7 +39,6 @@
 			$( "#play-list" ).append( html );
 		}	
 	}
-	
 	
 
 	
@@ -74,6 +74,7 @@
 				// render(playList)
 				render()
 				nowPlaying = 0
+				initPlayList();
 			}
 		});
 	}
@@ -313,12 +314,10 @@
 	$(function() {
 		$("#navigation #today #kpop").click( function() {
 			todayTop("KPOP");
-			initPlayList();
 		})
 		
 		$("#navigation #today #pop").click( function() {
 			todayTop("POP");
-			initPlayList();
 		})
 		
 		$("#navigation #kpopofyear").click( function() {
