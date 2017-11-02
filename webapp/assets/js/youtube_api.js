@@ -10,25 +10,25 @@
 	// 현재 재생중인 노래 정보 - 아이디?
 	var nowPlaying = 0
 
+	// 전역 main 함수 
+	$(function() {
+		//실시간 노래 가져오기 
+		todayTop("KPOP");
+		//과거 연도별 노래 조회하기 
+		checkPastYear();
+	})
+	
 	
 		
 	// 재생목록 출력하기
 	var render = function(  ) {
 		console.log("------ render ------")
-		// console.log("playList : "+playList)
-		
-		// for( index in playList ) {
+
 		var count = 0
-		//console.log(Object.keys(dictPlayList))
-		//console.log(Object.keys(dictSongInfo))
-		// console.log(playList.length)
-		// for( key in dictSongInfo ) {
+		$( "#play-list" ).empty();
 		for( key in dictPlayList ) {
 			key = dictPlayList[key]
-		// 아니 왜 dictSongInfo 가 50개만 나오지...?
-		// for( var i =0; i<playList.length; i++) {
-			// var key = playList[i]
-			// 자바스크립트 함수 호출시 스트링 보내기 위해
+
 			count++
 			param = '"'+key+'"'
 			var html = 
@@ -40,13 +40,12 @@
 	}
 	
 	
-	// 171023-SH : api 호출하여 받은 json 데이터 파싱하여 재생목록 만들기
-	// var request_url =
-	// "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCOmHUn--16B90oW2L6FRR3A&key=AIzaSyBJe_ZQsSPD6R6X05fg_R6gZIif4Q-XttI&maxResults=50"
-	var request_api = "/soundplayer/api/get/music/top/melon"
-	$(function() {
-		console.log("------ get music list ajax ) ------")
-		
+
+	
+	// 오늘의 일간top100 호출 ( KPOP/ POP )
+	var todayTop = function(kind) {
+		console.log("------ get today top ajax func ) ------")
+		var request_api = "/soundplayer/api/get/music/top/melon?kind="+kind
 		$.ajax({
 			type : 'get',
 			url : request_api,
@@ -59,6 +58,9 @@
 				}
 				
 				items = response.data
+				// 변수에 담긴 재생목록들을 초기화 시켜준다 
+				allPlayListClear();
+				
 				for(var i = 0; i<items.length; i++ ) {
 					// 순서를 알기위해 저장해두자
 					playList.push(items[i].title)
@@ -74,28 +76,27 @@
 				nowPlaying = 0
 			}
 		});
-		
-		
-		
-		
+	}
+	
+	// 연도별 db정보를 조회하고 새로운 연도 있을시 DB에 저장 
+	var checkPastYear = function() {
 		// 연도별 노래 조회 
-		console.log("------ check year ajax ) ------")
+		console.log("------ check past year ajax func ) ------")
 		$.ajax({
 			type : 'get',
-			url : '/soundplayer/api/get/year/past/melon',
-			// url : test_api,
+			url : '/soundplayer/api/check/past/listofyear/melon',
 			dataType : 'json',
 			success : function(response) {
 				if( response.result != "success" ) {
 					console.log("response error : "+ response.message );
 					return;
 				}
-				
-				console.log("success /soundplayer/api/get/year/past/melon")
 			}
 		});
-		
-	})
+	}
+	
+	
+	
 
 	
 	// 2. This code loads the IFrame Player API code asynchronously.
@@ -298,6 +299,38 @@
 		})
 		
 		
+	})
+	
+	
+	var allPlayListClear = function() {
+		playList = []
+		dictPlayList = {}
+		dictSongInfo = {}
+		dictVideoInfo = {}
+	}
+	
+	
+	$(function() {
+		$("#navigation #today #kpop").click( function() {
+			todayTop("KPOP");
+			initPlayList();
+		})
+		
+		$("#navigation #today #pop").click( function() {
+			todayTop("POP");
+			initPlayList();
+		})
+		
+		$("#navigation #kpopofyear").click( function() {
+			//클릭하면 DB를 조회해서 갯수만큼 연도수 버튼을 생성한다.
+			
+		})
+		
+		$("#navigation #popofyear").click( function() {
+			//클릭하면 DB를 조회해서 갯수만큼 연도수 버튼을 생성한다.
+		})
+		
+		// kind, 연도 별로 클릭하면 노래 목록을 보여주도록 해야함 
 	})
 	
 	

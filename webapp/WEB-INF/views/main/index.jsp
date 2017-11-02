@@ -34,9 +34,16 @@
 			<div id='title'>
 				<h1>Header Contents</h1>
 			</div>
-
 			<div id='navigation'>
 				<h1>Navigation</h1>
+				<div id = 'today'>
+					<button id='kpop'>TODAY KPOP</button>
+					<button id='pop'>TODAY POP</button>
+				</div>
+				<button id='kpopofyear'>KPOP OF YEAR</button>
+				<button id='popofyear'>POP OF YEAR</button>
+				
+				
 			</div>
 		</div>
 

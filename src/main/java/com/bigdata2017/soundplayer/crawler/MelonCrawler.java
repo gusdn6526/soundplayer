@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.bigdata2017.soundplayer.service.SongService;
 import com.bigdata2017.soundplayer.service.YearService;
+import com.bigdata2017.soundplayer.util.LogManager;
 import com.bigdata2017.soundplayer.vo.SongVo;
 import com.bigdata2017.soundplayer.vo.YearVo;
 
@@ -56,15 +57,18 @@ public class MelonCrawler {
 		
 		for(String kind : kinds) {
 			for(int year=2000; year<nowYear; year++) {
-				//String url = "http://www.melon.com/chart/age/index.htm?chartType=YE&chartGenre="+kind+"&chartDate="+year;
-				String title_url = "http://www.melon.com/chart/age/index.htm?chartType=YE&chartGenre="+kind+"&chartDate="+year+"#params%5Bidx%5D=51";
+				// 요청하여 열린 페이지의 연도를 가져오기 - 해당 연도가 존재하는지 확인 
+				String title_url   = "http://www.melon.com/chart/age/index.htm?chartType=YE&chartGenre="+kind+"&chartDate="+year+"#params%5Bidx%5D=51";
 				Document title_doc = getDocument(title_url);
-				String pageYear = getYearTitle(title_doc);
+				String pageYear    = getYearTitle(title_doc);
 
-				String list_url = "http://www.melon.com/chart/age/list.htm?chartType=YE&chartGenre="+kind+"&chartDate="+year+"#params%5Bidx%5D=51";
+				// 연도별 노래를 가져올수 있는 html 얻기 
+				String list_url   = "http://www.melon.com/chart/age/list.htm?chartType=YE&chartGenre="+kind+"&chartDate="+year+"#params%5Bidx%5D=51";
 				Document list_doc = getDocument(list_url);
 				
-				System.out.println(kind+" / "+year+" : " +pageYear);
+				
+				//System.out.println(kind+" / "+year+" : " +pageYear);
+				// 요청한 페이지와 출력된 페이지가 같은지 조회 ( 데이터 존재 여부 확인 ) 
 				if ( Integer.parseInt(pageYear) == year ) {
 					//같으면 페이지가 존재하는 것
 					//여기서 해당 년도가 db에 있는지 확인하자
@@ -73,10 +77,14 @@ public class MelonCrawler {
 					vo.setYear(String.valueOf(year));
 					vo.setId(year+kind);
 					
+					// 해당 연도정보가 DB에 있는지 조회 
 					if ( yearService.selectYearMessage(vo) ) {
 						//System.out.println("디비에 이미 존재함");
 					} else {
-						//System.out.println("디비에 없음");
+						// DB에 데이터가 없는 새로운 정보이므로 Insert 시키도록 한다 
+						LogManager lm = new LogManager();
+						lm.print(1,"API - check past song","found new year : "+year+"/"+kind);
+						
 						if ( yearService.insertMessage(vo) ) {
 							List<SongVo> list = getSongList(list_doc);
 							
@@ -95,17 +103,14 @@ public class MelonCrawler {
 				} else {
 					//같지 않으면 페이지가 없는 것 
 				}
-				
 			}
 		}
-		
-		
 	}
 	
 	
 	
 	
-	
+	// 요청한 url의 html 소스를 가져온다.
 	public static Document getDocument(String url)  {
 		Connection.Response response;
 		Document document = null;
@@ -119,6 +124,7 @@ public class MelonCrawler {
 		return document; 
 	}
 	
+	// 과거 연도별 노래를 가져올때 열린 페이지의 연도를 가져온다. ( 데이터 확인위해 )
 	public static String getYearTitle(Document doc) {
 		Elements elements = doc.select("div[class=calendar_prid]");
 		Elements span = elements.select("span[class=yyyymmdd]");
@@ -126,41 +132,21 @@ public class MelonCrawler {
 	}
 	
 	
-	
-	
-	
+	// html 에서 노래를 정보를 가져온다.
 	public List<SongVo> getSongList(Document doc) {
 		List<SongVo> titleList = new ArrayList<SongVo>();
 		int count = 0;
-		//System.out.println(doc);
-		//Elements melon_table = doc.select("div[class=service_list_song type02 d_song_list] table");
-		//Elements melon_tbody = melon_table.select("tbody");
 		Elements melon_tbody = doc.select("tbody");
-		//System.out.println("melon_tbody : "+melon_tbody);
-		Elements melon_test = null;
+		
 		Elements melon_title = null;
 		Elements melon_artist = null;
 
 		for (int i = 0; i < 2; i++) {
-			//melon_rank   = melon_tbody.select("tr[class=lst" + (i + 1) * 50 + "] td div[class=wrap t_center] span[class=rank]");
 			melon_title  = melon_tbody.select("tr[class=lst" + (i + 1) * 50 + "] td div[class=wrap_song_info] div[class=ellipsis rank01] span a");
 			melon_artist = melon_tbody.select("tr[class=lst" + (i + 1) * 50 + "] td div[class=wrap_song_info] div[class=ellipsis rank02] span[class=checkEllipsis] a");
 			
-			
-			//melon_test  = melon_tbody.select("tr[class=lst" + (i + 1) * 50 + "]");
-			//System.out.println("melon_test : "+melon_test);
-			/*
-			if ( melon_rank.toString().replaceAll(" ", "").equals("") ) {
-				System.out.println("melon_rank is empty");
-				melon_rank = melon_tbody.select("tr[class=lst" + (i + 1) * 50 + "] td div[class=wrap] span");
-				System.out.println("-->melon_rank : "+melon_rank);
-			} else {
-				System.out.println("melon_rank : "+melon_rank);
-			}
-			*/
 			Iterator it1 = melon_title.iterator();
 			Iterator it2 = melon_artist.iterator();
-			//Iterator it3 = melon_rank.iterator();
 
 			while (it1.hasNext()) {
 				count++;
@@ -168,14 +154,12 @@ public class MelonCrawler {
 				vo.setNo(count);
 				vo.setTitle(((Element) it1.next()).text());
 				vo.setArtist(((Element) it2.next()).text());
-				vo.setRank(count);
+				vo.setRank(count); //아쒸 귀차늠
 
 				//System.out.println(count + " : " + vo.getTitle() + " / " + vo.getArtist());
 				titleList.add(vo);
 			}
-
 		}
-		
 		return titleList;
 	}
 	

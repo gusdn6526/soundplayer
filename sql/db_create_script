@@ -101,6 +101,7 @@ maxvalue 99999999;
 -- select * from TB_YEAR;
 -- delete tb_year;
 -- insert into TB_YEAR values(SEQ_SONG_PAST_IDX.nextval, '2017KPOP', '2017', 'pop');
+-- commit;
 
 -- select * from tb_song_past;
 -- delete tb_song_past;
