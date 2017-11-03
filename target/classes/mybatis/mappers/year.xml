@@ -21,6 +21,15 @@
 	</insert>
 	
 	
+	<select id="selectyears" parameterType="yearvo" resultType="yearvo">
+		<![CDATA[
+		select YEAR
+		FROM TB_YEAR 
+		where kind = #{kind }
+		order by year desc
+		]]>		
+	</select>
+	
 	<!-- 
 	<update id="updateHit" parameterType="long">
 		<![CDATA[

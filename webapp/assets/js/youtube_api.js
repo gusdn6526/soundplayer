@@ -9,12 +9,18 @@
 	
 	// 현재 재생중인 노래 정보 - 아이디?
 	var nowPlaying = 0
-
+	
+	// youtube player init
+	var tag = document.createElement('script');
+	tag.src = "https://www.youtube.com/iframe_api";
+	var firstScriptTag = document.getElementsByTagName('script')[0];
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	var player;
+	
 	
 	// 전역 main 함수 
 	$(function() {
-		//실시간 노래 가져오기 
-		todayTop("KPOP");
+		console.log("------ [main] ------")
 		//과거 연도별 노래 조회하기 
 		checkPastYear();
 	})
@@ -23,7 +29,7 @@
 		
 	// 재생목록 출력하기
 	var render = function() {
-		console.log("------ render ------")
+		console.log("------ rendering ------")
 
 		var count = 0
 		$( "#play-list" ).empty();
@@ -40,16 +46,17 @@
 		}	
 	}
 	
+	
 
+	//////////////////////////////////////////////// ajax define //////////////////////////////////////////
 	
 	// 오늘의 일간top100 호출 ( KPOP/ POP )
 	var todayTop = function(kind) {
-		console.log("------ get today top ajax func ) ------")
+		console.log("------ [ajax func] get todayTop "+kind+" ) ------")
 		var request_api = "/soundplayer/api/get/music/top/melon?kind="+kind
 		$.ajax({
 			type : 'get',
 			url : request_api,
-			// url : test_api,
 			dataType : 'json',
 			success : function(response) {
 				if( response.result != "success" ) {
@@ -68,67 +75,124 @@
 					
 					dictSongInfo[items[i].title] = items[i].artist
 					dictVideoInfo[items[i].title] = ""
-					// console.log("["+i+"]"+items[i].title+" : "+
-					// dictSongInfo[items[i].title])
 				}
-				// render(playList)
+				
 				render()
 				nowPlaying = 0
-				initPlayList();
+				//initPlayList();
+				//selectSong( dictPlayList[0], 1 )
+				//171103-SH : today함수를 main 함수에 넣으면 onYoutubeReady 보다 먼저올라오기 때문에
+				//			    재생시 cueById 에서 에러가 발생한다.
+				//			    때문에 TodayTop 함수 호출시 첫번째 노래를 재생시키도록 하고 
+				//			    최초 1회 todayTop 은 onYoutubeReady에서 OnReady가 발생하면 요청하도록 한다 
+				selectSong( dictPlayList[0], 1 )
 			}
 		});
 	}
 	
-
+	// 과거 연도 조회하고 새로운거 있으면 입력 
+	var checkPastYear = function(kind) {
+		console.log("------ [ajax func] check past list of years ) ------")
+		var request_api = "/soundplayer/api/check/past/listofyear/melon"
+			$.ajax({
+				type : 'get',
+				url : request_api,
+				// url : test_api,
+				dataType : 'json',
+				success : function(response) {
+					if( response.result != "success" ) {
+						console.log("response error : "+ response.message );
+						return;
+					}
+				}
+			});
+	}
 	
-	var getYearCount = function(kind) {
-		// 연도별 노래 조회 
-		console.log("------ get year count(kind) ajax func ) ------")
+
+	// DB에서 kind 별 year 가져오기
+	var getYearsOfKind = function(kind) {
+		console.log("------ [ajax func] get Years Of Kind ------")
+		var request_api = "/soundplayer/api/year/get/past/yearlist/melon?kind="
+				+ kind
 		$.ajax({
 			type : 'get',
-			url : '/soundplayer/api/check/past/listofyear/melon',
+			url : request_api,
+			// url : test_api,
 			dataType : 'json',
 			success : function(response) {
-				if( response.result != "success" ) {
-					console.log("response error : "+ response.message );
+				if (response.result != "success") {
+					console.log("response error : " + response.message);
 					return;
 				}
+	
+				var datas = response.data
+				console.log(datas)
+				// 데이터 파싱하자...
+				$("#year-area").empty();
+				for (var i = 0; i < datas.length; i++) {
+					var year = datas[i].year
+	
+					var html = "<button id=" + year + kind + ">" + year
+							+ "</button>"
+					$("#year-area").append(html);
+				}
+	
+				// 버튼 만들어주자...
 			}
 		});
 	}
 	
-	
-	
-
-	
-	// 2. This code loads the IFrame Player API code asynchronously.
-	var tag = document.createElement('script');
-
-	tag.src = "https://www.youtube.com/iframe_api";
-	var firstScriptTag = document.getElementsByTagName('script')[0];
-	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-	// 3. This function creates an <iframe> (and YouTube player)
-	// after the API code downloads.
-	var player;
+	//onYouTubeIframeAPIReady
 	function onYouTubeIframeAPIReady() {
-		console.log("------ onYouTubeIframeAPIReady ------")
+		console.log("------ [ajax func?] onYouTubeIframeAPIReady ------")
 		player = new YT.Player('player', {
 			height : '360',
 			width : '640',
-			// videoId : 'M7lc1UVf-VE',
-			videoId : nowPlaying,
+			//videoId : nowPlaying,
 			events : {
 				// 171021-SH : 로드되면 onReady가 호출됨. 여기서 내 함수 지정
-				'onReady' : initPlayList,
+				'onReady' : onReadyYoutube,
 				'onStateChange' : onPlayerStateChange
 			}
 		});
 	}
-
-	// 5. The API calls this function when the player's state changes.
-	// The function indicates that when playing a video (state=1),
-	// the player should play for six seconds and then stop.
+	
+	var searchVideo = function(title) {
+		var request_url = "https://www.googleapis.com/youtube/v3/search?part=snippet&regionCode=KR&maxResults=1&key=AIzaSyArrLWBKmaJIoZIV774H7d6eOTSBmcKAAs&q="
+		console.log("------ [ajax func] search youtube videoId  ------")
+		$.ajax({
+			type : 'get',
+			url : request_url+title,
+			// url : test_api,
+			dataType : 'json',
+			success : function(response) {
+				json = response
+				// console.log(json)
+				if( json.kind != "youtube#searchListResponse" ) {
+					console.log("response error : "+ json.error.code +", "+json.message );
+					return;
+				}
+				
+				// 3. 받아온 json을 파싱하여 videoId획득
+				if ( json != "" ) {
+					videoId = json.items[0].id.videoId
+				}
+				
+				// console.log("videoId = " + videoId)
+				dictVideoInfo[title] = videoId
+				// 4. 해당 videoId를 youtbue api를 이용하여 palyer 에 재생
+				playSong( videoId )
+			}
+		});
+	}
+	
+	////////////////////////////////// ajax define end /////////////////////////
+	
+	
+	
+	
+	
+	//////////////////////////// player 관련 함수 //////////////////////////
 	function onPlayerStateChange(event) {
 		// 시작되지 않음 : -1
 		// 종료(ended) : 0
@@ -151,7 +215,6 @@
 		
 		// 1. 종료시 다음곡을 재생해주도록 하자.
 		if (event.data == 0 ) {   // !!!중요! 직접 종료눌렀을때는 이 함수를 타면 안됨
-			
 			// # 다음곡 선정
 			var nextSong = ++nowPlaying
 			// 마지막 곡일 경우 처리
@@ -166,99 +229,75 @@
 			SelectIndex = nextSong+1
 			selectSong( dictPlayList[nextSong], SelectIndex )
 		}
-		
-		
-
-		
-// if (event.data == YT.PlayerState.PLAYING && !done) {
-// // setTimeout(stopVideo, 6000);
-// done = true;
-// }
-	}
-	function stopVideo() {
-		console.log("------ stopVideo ------")
-		player.stopVideo();
-	}
-
-	// 171021-SH : 목록을 만들어보자
-	// 동영상이 초기화 되는 곳
-	function initPlayList(event) {
-		console.log("------ initPlayList ------")
-		// player.cuePlaylist(playList, 0, 0);
-		// 171021-SH : 목록을 플레이 리스트에 넣고 재생시키기
-		// player.loadPlaylist(playList, 0, 0);
-		// 171028-SH : 첫번째 노래를 틀어주자~
-		// selectSong( playList[0] )
-		selectSong( dictPlayList[0], 1 )
 	}
 	
+	// 노래 선택하기 
 	function selectSong(title, count){
 		console.log("------ selectSong : "+title+" ------")
 		
-		// 여기다가 선택시 색 변경해주는거 해야되..
 		$(".play-list li a.selected").removeClass("selected");
 		$(".play-list li #"+count).addClass("selected");
 		
 		// 1. videoId가 존재하는지 체크 - 있으면 재생, 없으면 search
 		if ( dictVideoInfo[title] == "" ) {
-			// console.log("need id")
 			var json = ""
 			var videoId = ""
-				
+			
 			// 2. indexnum을 이용하여 제목으로 유투브 조회
-			var request_url = "https://www.googleapis.com/youtube/v3/search?part=snippet&regionCode=KR&maxResults=1&key=AIzaSyArrLWBKmaJIoZIV774H7d6eOTSBmcKAAs&q="
-				console.log("------ youtube search ajax ) ------")
-				$.ajax({
-					type : 'get',
-					url : request_url+title,
-					// url : test_api,
-					dataType : 'json',
-					success : function(response) {
-						json = response
-						// console.log(json)
-						if( json.kind != "youtube#searchListResponse" ) {
-							console.log("response error : "+ json.error.code +", "+json.message );
-							return;
-						}
-						
-						// 3. 받아온 json을 파싱하여 videoId획득
-						if ( json != "" ) {
-							videoId = json.items[0].id.videoId
-						}
-						
-						// console.log("videoId = " + videoId)
-						dictVideoInfo[title] = videoId
-						// 4. 해당 videoId를 youtbue api를 이용하여 palyer 에 재생
-						playSong( videoId )
-					}
-				});
+			searchVideo(title);	
 		} else {
-			// console.log("already havd id")
 			// 4. 해당 videoId를 youtbue api를 이용하여 palyer 에 재생
 			playSong( dictVideoInfo[title] )
 		}
 		
-		
 		// 5. 현재 재생정보를 저장한다. - 인덱스로 저장하자
-		// nowPlaying = title;
 		for( key in dictPlayList ) {
 			if ( dictPlayList[key] == title ) {
 				nowPlaying = key
 				break;
 			}
 		}
-		
 		//컨트롤러 위에 재생중인 노래 정보 출력하기
 		$("#playing-info").text(title+" - "+ dictSongInfo[title])
 	}
 	
+	// 동영상이 초기화 되는 곳
+	function onReadyYoutube(event) {
+		console.log("------ onReadyYoutube ------")
+		//selectSong( dictPlayList[0], 1 )
+		todayTop("KPOP");
+	}
+	
+	// 선택된 videoId 노래 재생하기 
 	function playSong( videoId ) {
-		
+		console.log("------ playSong ------")
 		player.cueVideoById(videoId, 0)
 		player.playVideo()
 	}
 	
+	// video stop
+	function stopVideo() {
+		console.log("------ stopVideo ------")
+		player.stopVideo();
+	}
+
+	// 현재 재생목록 초기화 
+	var allPlayListClear = function() {
+		playList = []
+		dictPlayList = {}
+		dictSongInfo = {}
+		dictVideoInfo = {}
+	}
 	
+	////////////////////////player 관련 함수  끝 //////////////////////////
+	
+	
+	
+	
+	
+	///////////////////////////// 버튼 관련 함수 /////////////////////////////////
+	
+	// videoController 
 	$(function() {	
 		$("#player-controller #prev").click( function() {
 			// # 다음곡 선정
@@ -299,19 +338,10 @@
 			selectIndex = nextSong+1
 			selectSong( dictPlayList[nextSong], selectIndex )
 		})
-		
-		
 	})
 	
 	
-	var allPlayListClear = function() {
-		playList = []
-		dictPlayList = {}
-		dictSongInfo = {}
-		dictVideoInfo = {}
-	}
-	
-	
+	// kind, year 별 노래 버튼 
 	$(function() {
 		$("#navigation #today #kpop").click( function() {
 			todayTop("KPOP");
@@ -322,16 +352,16 @@
 		})
 		
 		$("#navigation #kpopofyear").click( function() {
-			//클릭하면 DB를 조회해서 갯수만큼 연도수 버튼을 생성한다.
-			
+			getYearsOfKind("KPOP")
 		})
 		
 		$("#navigation #popofyear").click( function() {
-			//클릭하면 DB를 조회해서 갯수만큼 연도수 버튼을 생성한다.
+			getYearsOfKind("POP")
 		})
-		
-		// kind, 연도 별로 클릭하면 노래 목록을 보여주도록 해야함 
 	})
+	
+	
+	//////////////////////// 버튼관련 함수 끝 ////////////////////////////
 	
 	
 	

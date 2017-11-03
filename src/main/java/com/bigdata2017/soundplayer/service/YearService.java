@@ -1,5 +1,7 @@
 package com.bigdata2017.soundplayer.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,4 +22,9 @@ public class YearService {
 	public boolean insertMessage(YearVo vo) {
 		return yearDao.insertYear(vo) == 1;
 	}
+	
+	public List<YearVo> selectYearsMessage(YearVo vo) {
+		return yearDao.selectYears(vo);
+	}
+
 }

@@ -1,5 +1,7 @@
 package com.bigdata2017.soundplayer.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,5 +21,9 @@ public class YearDao {
 	public int insertYear( YearVo vo) {
 		// 1 : 성공
 		return sqlSession.insert("year.insertyear", vo);
+	}
+	
+	public List<YearVo> selectYears( YearVo vo) {
+		return sqlSession.selectList("year.selectyears", vo);
 	}
 }
