@@ -55,8 +55,9 @@ body {
 #mainWrapper #headContents #navigation {
 	background-position: top;
 	background-color: #FF3222;
-	height: 120px;
+	height: 150px;
 	margin: 0px;
+	
 }
 
 #mainWrapper #contentsWrapper {

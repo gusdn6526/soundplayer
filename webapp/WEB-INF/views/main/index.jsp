@@ -40,8 +40,8 @@
 					<button id='kpop'>TODAY KPOP</button>
 					<button id='pop'>TODAY POP</button>
 				</div>
-				<button id='kpopofyear'>KPOP OF YEAR</button>
-				<button id='popofyear'>POP OF YEAR</button>
+				<button id='kpopofyear' class='kpopofyear'>KPOP OF YEAR</button>
+				<button id='popofyear'  class='popofyear'>POP OF YEAR</button>
 				
 				
 			</div>

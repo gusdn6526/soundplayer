@@ -79,10 +79,11 @@
 		});
 	}
 	
-	// 연도별 db정보를 조회하고 새로운 연도 있을시 DB에 저장 
-	var checkPastYear = function() {
+
+	
+	var getYearCount = function(kind) {
 		// 연도별 노래 조회 
-		console.log("------ check past year ajax func ) ------")
+		console.log("------ get year count(kind) ajax func ) ------")
 		$.ajax({
 			type : 'get',
 			url : '/soundplayer/api/check/past/listofyear/melon',
