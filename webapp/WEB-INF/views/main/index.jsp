@@ -82,11 +82,16 @@
 					<button id='stop'>정지</button>
 					<button id='next'>다음</button>
 					
+					<!-- 171030 HG -->
+					<button id='random' >랜덤재생</button>
+					<button id='fav-list'>내 목록</button>
+					<button id='remove'>쿠키 지우기</button>
 				</div>
 				
 				<!-- 재생목록 -->
-				<div class='play-list' id='play-list' style='overflow-y:auto; height:300px'>
+				<div class='play-list' id='play-list'>
 					<h1>이곳은 동영상 재생목록이 될 곳</h1>
+					
 				</div>
 				
 				<!-- 댓글 -->

@@ -10,6 +10,9 @@
 	// 현재 재생중인 노래 정보 - 아이디?
 	var nowPlaying = 0
 	
+	// 171030 HG
+	var random = false;
+	
 	// youtube player init
 	var tag = document.createElement('script');
 	tag.src = "https://www.youtube.com/iframe_api";
@@ -40,9 +43,19 @@
 			param = '"'+key+'"'
 			var html = 
 				"<li  video-id=list'"+ key +"'>"+
-				"<a href='javascript:selectSong("+param+", "+count+")' id='"+count+"' class = 'call-song'>"+count+". "+ key + " - " + dictSongInfo[key] +"</a>" +
-				"</li>"
+					"<a href='javascript:selectSong("+param+", "+count+")' id='"+count+"' class = 'call-song'>"+count+". "+ key + " - " + dictSongInfo[key] +"</a>" +
+					//"<button class='btn_addtomylist idx_"+ count +"'>담기</button>" +
+				"</li>" 
 			$( "#play-list" ).append( html );
+			
+			
+			// 쿠키 추가 함수 
+//			$("span.idx_"+ count).click(function() {
+//				var title = encodeURI($(this).parents("li").attr("class").split("_")[1]);
+//				var artist = encodeURI(dictSongInfo[$(this).parents("li").attr("class").split("_")[1]]);
+//
+//				setCookie(title, artist, 1);
+//            })
 		}	
 	}
 	
@@ -216,14 +229,21 @@
 		// 1. 종료시 다음곡을 재생해주도록 하자.
 		if (event.data == 0 ) {   // !!!중요! 직접 종료눌렀을때는 이 함수를 타면 안됨
 			// # 다음곡 선정
-			var nextSong = ++nowPlaying
-			// 마지막 곡일 경우 처리
-			if ( nextSong > 99 ) {
-				nextSong = 0
-			}
+			var nextSong 
+			
 			
 			// # 랜덤곡 선정
-			
+			// 랜덤곡 선정
+			if (random) {
+				nextSong = Math.floor(Math.random() * 100);
+			}else{
+				nextSong = ++nowPlaying;
+				
+				// 마지막 곡일 경우 처리
+				if (nextSong > 99) {
+					nextSong = 0
+				}
+			}
 			
 			// 재생 시키기
 			SelectIndex = nextSong+1
@@ -301,12 +321,17 @@
 	$(function() {	
 		$("#player-controller #prev").click( function() {
 			// # 다음곡 선정
-			var nextSong = nowPlaying*1 - 1
-			// 마지막 곡일 경우 처리
-			if ( nextSong < 0 ) {
-				nextSong = 99
+			var nextSong
+
+			if (random) {
+				nextSong = Math.floor(Math.random() * 100);
+			}else{
+				nextSong = nowPlaying * 1 - 1;
+				// 마지막 곡일 경우 처리
+				if ( nextSong < 0 ) {
+					nextSong = 99
+				}
 			}
-			// # 랜덤곡 선정
 			
 			// 재생 시키기
 			selectIndex = nextSong+1
@@ -327,10 +352,16 @@
 		
 		$("#player-controller #next").click( function() {
 			// # 다음곡 선정
-			var nextSong = nowPlaying*1 + 1
-			// 마지막 곡일 경우 처리
-			if ( nextSong > 99 ) {
-				nextSong = 0
+			var nextSong 
+			
+			if (random) {
+				nextSong = Math.floor(Math.random() * 100);
+			}else{
+				nextSong = nowPlaying * 1 + 1;
+				// 마지막 곡일 경우 처리
+				if ( nextSong > 99 ) {
+					nextSong = 0
+				}
 			}
 			// # 랜덤곡 선정
 			
@@ -338,6 +369,26 @@
 			selectIndex = nextSong+1
 			selectSong( dictPlayList[nextSong], selectIndex )
 		})
+		
+		
+		
+		//랜덤 설정
+		// 171030 HG
+		$("#player-controller #random").click(function() {
+			if ($(this).text() == "랜덤재생") {
+				$("#random").text("랜덤재생중");
+				$("#random").css("color","blue");
+				
+				random = true;
+			}else{
+				$("#random").text("랜덤재생");
+				$("#random").css("color","black");
+				
+				random = false;
+			}
+		})
+		
+		
 	})
 	
 	

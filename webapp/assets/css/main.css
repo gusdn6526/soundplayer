@@ -71,6 +71,43 @@ body {
 	height: 60px;
 }
 
-#play-list li a.selected {
-	background-color : #FFCC66;
+
+/* 171031 HG */
+#play-list {
+	overflow-y:auto; 
+	height:300px;
 }
+
+#play-list .btn_addtomylist{
+	margin-right: 15px;
+	float: right;
+}
+
+#play-list li {
+	list-style:none;
+	padding-left:15px;
+	/* Key Point */
+	height:30px;
+}
+
+#play-list li a.selected {
+	font-weight: bold;
+}
+
+#play-list li a:link { 
+	color: black; 
+	text-decoration: none;
+}
+
+#play-list li a:visited { 
+	color: black; 
+	text-decoration: none;
+}
+
+#play-list li a:hover { 
+	color: black;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+/* 171031 HG */
