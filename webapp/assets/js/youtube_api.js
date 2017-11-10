@@ -1,3 +1,5 @@
+	//pull test
+
 
 	// 재생목록을 저장 - 순서를 정의
 	var playList = []
