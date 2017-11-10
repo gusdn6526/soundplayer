@@ -123,6 +123,7 @@
 	
 
 	// DB에서 kind 별 year 가져오기
+	var selectedBtn // 
 	var getYearsOfKind = function(kind) {
 		console.log("------ [ajax func] get Years Of Kind ------")
 		var request_api = "/soundplayer/api/year/get/past/yearlist/melon?kind="
@@ -145,12 +146,63 @@
 				for (var i = 0; i < datas.length; i++) {
 					var year = datas[i].year
 	
-					var html = "<button id=" + year + kind + ">" + year
+					var html = "<button class='getsongofyear' id=" + year + kind + ">" 
+							+ year
 							+ "</button>"
 					$("#year-area").append(html);
 				}
+				
+				$(".getsongofyear").click( function() {
+					if (selectedBtn != null ) {
+						selectedBtn.removeClass('selected')
+					}
+					
+					$(this).addClass('selected')
+					selectedBtn = $(this)
+					yearId = this.id
+					getSongOfYearId(yearId)
+				})
+				
 	
 				// 버튼 만들어주자...
+			}
+		});
+	}
+	
+	
+	//songofyear
+	var getSongOfYearId = function(yearId) {
+		console.log("------ [ajax func] getSongOfYearId ------")
+		var request_api = "/soundplayer/api/song/get/past/eachlist/melon?yearId="+yearId
+		$.ajax({
+			type : 'get',
+			url : request_api,
+			dataType : 'json',
+			success : function(response) {
+				if (response.result != "success") {
+					console.log("response error : " + response.message);
+					return;
+				}
+				
+				items = response.data
+				// 변수에 담긴 재생목록들을 초기화 시켜준다 
+				allPlayListClear();
+				
+				for(var i = 0; i<items.length; i++ ) {
+					// 순서를 알기위해 저장해두자
+					playList.push(items[i].title)
+					dictPlayList[i] = items[i].title
+					
+					dictSongInfo[items[i].title] = items[i].artist
+					dictVideoInfo[items[i].title] = ""
+				}
+				
+				render()
+				nowPlaying = 0
+
+				selectSong( dictPlayList[0], 1 )
+				
+				
 			}
 		});
 	}
@@ -409,6 +461,10 @@
 		$("#navigation #popofyear").click( function() {
 			getYearsOfKind("POP")
 		})
+		
+		
+		
+		
 	})
 	
 	

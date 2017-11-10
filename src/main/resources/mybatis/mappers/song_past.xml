@@ -6,15 +6,23 @@
 	
 	<insert id="insertsong" parameterType="songvo">
 		<![CDATA[
-		insert into TB_SONG_PAST  
-		values( seq_song_past_idx.nextval , 
-				#{title },
-				#{artist },
-				#{rank },
-				#{yearId }
-				)
+			insert into TB_SONG_PAST  
+			values( seq_song_past_idx.nextval , 
+					#{title },
+					#{artist },
+					#{rank },
+					#{yearId }
+					)
 		]]>
 	</insert>
+	
+	<select id="selecteachlist" parameterType="songvo" resultType="songvo">
+      	<![CDATA[
+	      	select *
+	       	FROM TB_SONG_PAST
+	      	where yearid = #{yearId }
+      	]]>
+   </select>
 	<!-- 
 	<select id="getList" resultType="galleryvo">
 		<![CDATA[

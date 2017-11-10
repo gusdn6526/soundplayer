@@ -20,6 +20,7 @@ public class YearController {
 	@Autowired
 	private YearService yearService;
 	
+
 	@ResponseBody
 	@RequestMapping("/get/past/yearlist/melon")
 	public JSONResult getPastYearListMelon(
@@ -36,4 +37,8 @@ public class YearController {
 		return JSONResult.success(list);
 	}
 
+	
+	
+	
+	
 }

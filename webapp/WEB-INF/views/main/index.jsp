@@ -30,12 +30,14 @@
 
 <body>
 	<div id="mainWrapper">
+		<button id='test_traffic'> traffic</button>
 		<div id="headContents">
 			<div id='title'>
-				<h1>Header Contents</h1>
+				<!-- <h1>Header Contents</h1>  -->
+				<h1 id='title_text'>asdf</h1>
 			</div>
 			<div id='navigation'>
-				<h1>Navigation</h1>
+				<!-- <h1>Navigation</h1> -->
 				<div id = 'today'>
 					<button id='kpop'>TODAY KPOP</button>
 					<button id='pop'>TODAY POP</button>
@@ -51,71 +53,73 @@
 
 		<div id="contentsWrapper">
 			<div id="left_contents">
-				<h1>Left Content</h1>
-				<input id='test_button' type="submit" value="가입">
-				<p>left lefddddddddddddddddddddddddddddddddddddddddt left
-				<p>
-				<p>left lefddddddddddddddddddddddddddddddddddddddddt left
-				<p>
-				<p>left lefddddddddddddddddddddddddddddddddddddddddt left
-				<p>
-				<p>left lefddddddddddddddddddddddddddddddddddddddddt left
-				<p>
-				<p>left lefddddddddddddddddddddddddddddddddddddddddt left
-				<p>
+				<!-- <h1>Left Content</h1> -->
+				<!-- <input id='test_button' type="submit" value="가입"> -->
+				<!-- <p>left lefddddddddddddddddddddddddddddddddddddddddt left<p>
+				<p>left lefddddddddddddddddddddddddddddddddddddddddt left<p>
+				<p>left lefddddddddddddddddddddddddddddddddddddddddt left<p>
+				<p>left lefddddddddddddddddddddddddddddddddddddddddt left<p>
+				<p>left lefddddddddddddddddddddddddddddddddddddddddt left<p> -->
 			</div>
 			<div id="center_contents">
-				<h1>Center Content</h1>
-				<!-- 동영상 플레이어 -->
-				<div id='player-div'>
+				<!-- <h1>Center Content</h1> -->
+				
+				<div id='player-div' style="width: 640px; margin: 0 auto">
+					<!-- 동영상 플레이어 -->	
 					<div id='player'>
 					</div>
+					
+					
+					
+					<!-- 동영상 컨트롤러 -->
+					<div id='player-controller'  >
+						<!-- <h1>이곳은 동영상 컨트롤러가 될 곳</h1> -->
+						<p id='playing-info'>ddd</p>
+						<button id='prev'>이전</button>
+						<button id='play'>재생</button>
+						<button id='pause'>일시정지</button>
+						<button id='stop'>정지</button>
+						<button id='next'>다음</button>
+						
+						<!-- 171030 HG -->
+						<button id='random' >랜덤재생</button>
+						<button id='fav-list'>내 목록</button>
+						<button id='remove'>쿠키 지우기</button>
+					</div>
+					<br>
+					
+					<!-- 재생목록 -->
+					<div class='play-list' id='play-list'>
+						
+					</div>
+					<br>
 				</div>
 				
-				<!-- 동영상 컨트롤러 -->
-				<div id='player-controller'>
-					<h1>이곳은 동영상 컨트롤러가 될 곳</h1>
-					<p id='playing-info'>ddd</p>
-					<button id='prev'>이전</button>
-					<button id='play'>재생</button>
-					<button id='pause'>일시정지</button>
-					<button id='stop'>정지</button>
-					<button id='next'>다음</button>
-					
-					<!-- 171030 HG -->
-					<button id='random' >랜덤재생</button>
-					<button id='fav-list'>내 목록</button>
-					<button id='remove'>쿠키 지우기</button>
-				</div>
 				
-				<!-- 재생목록 -->
-				<div class='play-list' id='play-list'>
-					<h1>이곳은 동영상 재생목록이 될 곳</h1>
+	            
 					
-				</div>
+				
+				
+				
+				
 				
 				<!-- 댓글 -->
 				<div>
-					<h1>이곳은 댓글 쓰는 곳이 될까?</h1>
+					<!-- <h1>이곳은 댓글 쓰는 곳이 될까?</h1> -->
 				</div>
 			</div>
 			<div id="right_contents">
-				<h1>Right Content</h1>
-				<p>Right Right Righdddddddddddddddddddddt
-				<p>
-				<p>Right Right Righdddddddddddddddddddddt
-				<p>
-				<p>Right Right Righdddddddddddddddddddddt
-				<p>
-				<p>Right Right Righdddddddddddddddddddddt
-				<p>
-				<p>Right Right Righdddddddddddddddddddddt
-				<p>
+				<!-- <h1>Right Content</h1>
+				<p>Right Right Righdddddddddddddddddddddt<p>
+				<p>Right Right Righdddddddddddddddddddddt<p>
+				<p>Right Right Righdddddddddddddddddddddt<p>
+				<p>Right Right Righdddddddddddddddddddddt<p>
+				<p>Right Right Righdddddddddddddddddddddt<p> -->
 			</div>
 		</div>
 
 		<div id="footerContents">
-			<h1>Footer Contents</h1>
+			<!-- <h1>Footer Contents</h1> -->
 		</div>
 
 

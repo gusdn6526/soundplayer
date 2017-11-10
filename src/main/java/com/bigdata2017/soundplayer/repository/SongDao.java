@@ -1,5 +1,7 @@
 package com.bigdata2017.soundplayer.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,5 +18,9 @@ public class SongDao {
 		return sqlSession.insert("song_past.insertsong", vo);
 		
 	}
+	
+	public List<SongVo> selectEachList( SongVo vo ){
+      return sqlSession.selectList("song_past.selecteachlist", vo);
+   }
 	
 }
