@@ -39,11 +39,13 @@
 			<div id='navigation'>
 				<!-- <h1>Navigation</h1> -->
 				<div id = 'today'>
-					<button id='kpop'>TODAY KPOP</button>
-					<button id='pop'>TODAY POP</button>
+					<button id='kpop' class='btnoftoday'>TODAY KPOP</button>
+					<button id='pop' class='btnoftoday'>TODAY POP</button>
 				</div>
-				<button id='kpopofyear' class='kpopofyear'>KPOP OF YEAR</button>
-				<button id='popofyear'  class='popofyear'>POP OF YEAR</button>
+				<div id = 'kind-area'>
+				<button id='kpopofyear' class='btnofyear'>KPOP OF YEAR</button>
+				<button id='popofyear'  class='btnofyear'>POP OF YEAR</button>
+				</div>
 				<div id='year-area'>
 				</div>
 				

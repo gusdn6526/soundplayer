@@ -125,7 +125,9 @@
 	
 
 	// DB에서 kind 별 year 가져오기
-	var selectedBtn // 
+	var selectedTodayOfBtn
+	var selectedKindOfBtn // 
+	var selectedYearOfBtn // 
 	var getYearsOfKind = function(kind) {
 		console.log("------ [ajax func] get Years Of Kind ------")
 		var request_api = "/soundplayer/api/year/get/past/yearlist/melon?kind="
@@ -154,13 +156,15 @@
 					$("#year-area").append(html);
 				}
 				
+				
+				
 				$(".getsongofyear").click( function() {
-					if (selectedBtn != null ) {
-						selectedBtn.removeClass('selected')
+					if (selectedYearOfBtn != null ) {
+						selectedYearOfBtn.removeClass('selected')
 					}
 					
 					$(this).addClass('selected')
-					selectedBtn = $(this)
+					selectedYearOfBtn = $(this)
 					yearId = this.id
 					getSongOfYearId(yearId)
 				})
@@ -464,8 +468,24 @@
 			getYearsOfKind("POP")
 		})
 		
+		$(".btnofyear").click(function() {
+			if (selectedKindOfBtn != null ) {
+				selectedKindOfBtn.removeClass('selected')
+			}
+			
+			$(this).addClass('selected')
+			selectedKindOfBtn = $(this)
+			
+		})
 		
-		
+		$(".btnoftoday").click(function(){
+			if (selectedTodayOfBtn != null ) {
+				selectedTodayOfBtn.removeClass('selected')
+			}
+			
+			$(this).addClass('selected')
+			selectedTodayOfBtn = $(this)
+		})
 		
 	})
 	

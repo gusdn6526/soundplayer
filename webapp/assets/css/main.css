@@ -72,13 +72,23 @@ body {
 	height: 60px;
 }
 
+#today .selected {
+	background-color: #ff22ef;
+}
+
+#kind-area .selected {
+	background-color: #ff22ef;
+}
+
 .getsongofyear {
 	
 }
 
 #year-area .selected {
-	background-color: #123123;
+	background-color: #ff22ef;
 }
+
+
 
 
 
