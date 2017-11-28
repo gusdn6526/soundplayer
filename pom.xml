@@ -188,8 +188,8 @@
 				<configuration>
 					<url>http://127.0.0.1/manager/text</url>
 					<path>/soundplayer</path>
-					<username>breezer</username>
-					<password>qwe123!</password>
+					<username>admin</username>
+					<password>manager</password>
 				</configuration>
 			</plugin>
 		</plugins>
