@@ -11,7 +11,6 @@ public class MainController {
 		
 		
 		
-		// return "main/index_hg";
 		// return "main/index_hw";
 		return "main/index";
 	}
